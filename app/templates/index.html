@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>App Flask</title>
+</head>
+<body>
+    <h2>Enviar un dato al backend:</h2>
+    <form id="formulario">
+        <input type="text" name="dato" id="dato">
+        <button type="submit">Enviar</button>
+    </form>
+    <p id="respuesta"></p>
+
+    <script>
+        document.getElementById("formulario").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const dato = document.getElementById("dato").value;
+            const response = await fetch("/procesar", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `dato=${encodeURIComponent(dato)}`
+            });
+            const data = await response.json();
+            document.getElementById("respuesta").innerText = data.resultado;
+        });
+    </script>
+</body>
+</html>
